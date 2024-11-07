@@ -1,0 +1,197 @@
+using Microsoft.AspNetCore.Mvc;
+using _2AOnePage.Models;
+using _2AOneProjectDataAccessLayer;
+using System.Threading.Tasks;
+using System.Linq;
+
+namespace _2AOnePage.Areas.Admin.Controllers
+{
+    [Area("Admin")]
+    public class AdminController : Controller
+    {
+        private readonly _2ADbContext _context;
+
+        public AdminController(_2ADbContext context)
+        {
+            _context = context;
+        }
+
+        // List banners
+        public async Task<IActionResult> Banners()
+        {
+            var banners = await _context.Banners.ToListAsync();
+            return View(banners);
+        }
+
+        // Create new banner - GET
+        public IActionResult CreateBanner()
+        {
+            return View();
+        }
+
+        // Create new banner - POST
+        [HttpPost]
+        public async Task<IActionResult> CreateBanner(Banner banner)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Banners.Add(banner);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Banners));
+            }
+            return View(banner);
+        }
+
+        // Edit banner - GET
+        public async Task<IActionResult> EditBanner(int id)
+        {
+            var banner = await _context.Banners.FindAsync(id);
+            if (banner == null)
+            {
+                return NotFound();
+            }
+            return View(banner);
+        }
+
+        // Edit banner - POST
+        [HttpPost]
+        public async Task<IActionResult> EditBanner(Banner banner)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Banners.Update(banner);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Banners));
+            }
+            return View(banner);
+        }
+
+        // Delete banner
+        public async Task<IActionResult> DeleteBanner(int id)
+        {
+            var banner = await _context.Banners.FindAsync(id);
+            if (banner != null)
+            {
+                _context.Banners.Remove(banner);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Banners));
+        }
+
+        // Similar methods for AboutUs
+        public async Task<IActionResult> AboutUs()
+        {
+            var aboutUs = await _context.AboutUs.ToListAsync();
+            return View(aboutUs);
+        }
+
+        public IActionResult CreateAboutUs()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAboutUs(AboutUs aboutUs)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.AboutUs.Add(aboutUs);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(AboutUs));
+            }
+            return View(aboutUs);
+        }
+
+        public async Task<IActionResult> EditAboutUs(int id)
+        {
+            var aboutUs = await _context.AboutUs.FindAsync(id);
+            if (aboutUs == null)
+            {
+                return NotFound();
+            }
+            return View(aboutUs);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditAboutUs(AboutUs aboutUs)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.AboutUs.Update(aboutUs);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(AboutUs));
+            }
+            return View(aboutUs);
+        }
+
+        public async Task<IActionResult> DeleteAboutUs(int id)
+        {
+            var aboutUs = await _context.AboutUs.FindAsync(id);
+            if (aboutUs != null)
+            {
+                _context.AboutUs.Remove(aboutUs);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(AboutUs));
+        }
+
+        // Similar methods for Services
+        public async Task<IActionResult> Services()
+        {
+            var services = await _context.Services.ToListAsync();
+            return View(services);
+        }
+
+        public IActionResult CreateService()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateService(Service service)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Services.Add(service);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Services));
+            }
+            return View(service);
+        }
+
+        public async Task<IActionResult> EditService(int id)
+        {
+            var service = await _context.Services.FindAsync(id);
+            if (service == null)
+            {
+                return NotFound();
+            }
+            return View(service);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditService(Service service)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Services.Update(service);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Services));
+            }
+            return View(service);
+        }
+
+        public async Task<IActionResult> DeleteService(int id)
+        {
+            var service = await _context.Services.FindAsync(id);
+            if (service != null)
+            {
+                _context.Services.Remove(service);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Services));
+        }
+
+        // Repeat similar methods for References, Gallery, and Contact sections
+    }
+}
